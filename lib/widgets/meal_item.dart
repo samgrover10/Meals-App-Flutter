@@ -3,22 +3,26 @@ import 'package:meals/models/meal.dart';
 import 'package:meals/screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
-  final String mealId ; 
+  final String mealId;
   final Affordability affordability;
   final Complexity complexity;
   final int duration;
   final String title;
   final String imageUrl;
+ 
   MealItem(
       {@required this.mealId,
-        @required this.title,
+      @required this.title,
       @required this.affordability,
       @required this.complexity,
       @required this.duration,
-      @required this.imageUrl});
+      @required this.imageUrl,
+      });
 
   void selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(MealDetailScreen.route,arguments:mealId);
+    Navigator.of(context)
+        .pushNamed(MealDetailScreen.route, arguments: mealId);
+       
   }
 
   String get complexityText {

@@ -3,6 +3,9 @@ import 'package:meals/models/dummy_data.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const route = '/categories-meal/meal-detail-screen';
+  Function toggleFav;
+  Function isMealFav;
+  MealDetailScreen(this.toggleFav,this.isMealFav);
   Widget _buildSectionTitle(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -15,7 +18,7 @@ class MealDetailScreen extends StatelessWidget {
 
   Widget _buildContainer(Widget child, double height) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         width: double.infinity,
         height: height,
         decoration: BoxDecoration(
@@ -35,7 +38,7 @@ class MealDetailScreen extends StatelessWidget {
         title: Text('Meal'),
       ),
       body: SingleChildScrollView(
-              child: Column(
+        child: Column(
           children: [
             Container(
               height: 300,
@@ -54,7 +57,9 @@ class MealDetailScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             gradient: LinearGradient(
                                 colors: [
-                                  Theme.of(context).accentColor.withOpacity(0.7),
+                                  Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.7),
                                   Theme.of(context).accentColor
                                 ],
                                 begin: Alignment.bottomLeft,
@@ -77,25 +82,38 @@ class MealDetailScreen extends StatelessWidget {
                 ),
                 125),
             _buildSectionTitle(context, 'Steps'),
-            _buildContainer(ListView.builder(itemBuilder: (ctx, index) {
-              return Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).accentColor,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FittedBox(child: Text('# ${index + 1}')),
-                      ),
-                    ),
-                    title: Text(selectedMeal.steps[index],style: TextStyle(fontSize: 16),),
-                  ),
-                  Divider()
-                ],
-              );
-            },itemCount: selectedMeal.steps.length,), 300)
+            _buildContainer(
+                ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Theme.of(context).accentColor,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FittedBox(child: Text('# ${index + 1}')),
+                            ),
+                          ),
+                          title: Text(
+                            selectedMeal.steps[index],
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Divider()
+                      ],
+                    );
+                  },
+                  itemCount: selectedMeal.steps.length,
+                ),
+                300)
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => toggleFav(mealId),
+        child: Icon(isMealFav(mealId)?Icons.star:Icons.star_border),
       ),
     );
   }
